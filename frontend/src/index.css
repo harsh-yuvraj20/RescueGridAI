@@ -1,0 +1,182 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-dark text-gray-100 font-sans;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.03) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.04) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(239, 68, 68, 0.02) 0px, transparent 50%);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #030712;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5);
+  }
+}
+
+/* Glassmorphism styles */
+.glass-panel {
+  background: rgba(11, 15, 25, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-panel-heavy {
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+.glass-input {
+  background: rgba(3, 7, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f3f4f6;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-input:focus {
+  border-color: #10B981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+}
+
+/* LED glow indicators */
+.led-green {
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+  animation: pulse-led-green 2s infinite alternate;
+}
+
+.led-blue {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  animation: pulse-led-blue 2s infinite alternate;
+}
+
+.led-red {
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+  animation: pulse-led-red 1.5s infinite alternate;
+}
+
+.led-amber {
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+  animation: pulse-led-amber 2s infinite alternate;
+}
+
+.led-cyber {
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+  animation: pulse-led-cyber 1.5s infinite alternate;
+}
+
+@keyframes pulse-led-green {
+  0% { opacity: 0.5; box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); }
+  100% { opacity: 1; box-shadow: 0 0 12px rgba(16, 185, 129, 0.9); }
+}
+
+@keyframes pulse-led-blue {
+  0% { opacity: 0.5; box-shadow: 0 0 5px rgba(59, 130, 246, 0.4); }
+  100% { opacity: 1; box-shadow: 0 0 12px rgba(59, 130, 246, 0.9); }
+}
+
+@keyframes pulse-led-red {
+  0% { opacity: 0.4; box-shadow: 0 0 4px rgba(239, 68, 68, 0.3); }
+  100% { opacity: 1; box-shadow: 0 0 15px rgba(239, 68, 68, 1); }
+}
+
+@keyframes pulse-led-amber {
+  0% { opacity: 0.5; box-shadow: 0 0 5px rgba(245, 158, 11, 0.4); }
+  100% { opacity: 1; box-shadow: 0 0 12px rgba(245, 158, 11, 0.9); }
+}
+
+@keyframes pulse-led-cyber {
+  0% { opacity: 0.4; box-shadow: 0 0 4px rgba(6, 182, 212, 0.3); }
+  100% { opacity: 1; box-shadow: 0 0 15px rgba(6, 182, 212, 1); }
+}
+
+/* Map Popup Overrides */
+.leaflet-popup-content-wrapper {
+  background: rgba(11, 15, 25, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f3f4f6 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 8px !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(11, 15, 25, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaflet-container {
+  font-family: 'Outfit', sans-serif !important;
+}
+
+/* Pulsing radar for map nodes */
+.radar-ring {
+  border: 2px solid #10B981;
+  border-radius: 50%;
+  animation: radar-pulse 2s ease-out infinite;
+}
+
+@keyframes radar-pulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Scanner line effect for futuristic grids */
+.scan-line {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(16, 185, 129, 0.15) 50%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 100% 200px;
+  animation: scan-move 4s linear infinite;
+}
+
+@keyframes scan-move {
+  0% { background-position: 0 -200px; }
+  100% { background-position: 0 100%; }
+}
+
+/* Power Flow SVG Dash Animation */
+@keyframes power-flow-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.animate-power-flow {
+  stroke-dasharray: 6 4;
+  animation: power-flow-dash 1.5s linear infinite;
+}
+
+/* Glowing Button Pulse */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.8), 0 0 40px rgba(6, 182, 212, 0.4); }
+  100% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.4); }
+}
+
+.btn-glow-cyan {
+  animation: glow-pulse 2s infinite;
+}
+

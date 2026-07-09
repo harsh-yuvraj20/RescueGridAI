@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: rescuegrid_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite:///./backend/rescuegrid.db
+    volumes:
+      - ./backend:/app/backend
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: rescuegrid_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
