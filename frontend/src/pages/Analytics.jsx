@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../api';
 import { 
   ResponsiveContainer, 
   AreaChart, 
@@ -27,11 +27,11 @@ export default function Analytics() {
 
   const fetchAnalytics = async () => {
     try {
-      const [analyticsRes, forecastsRes, comparisonRes] = await Promise.all([
-        axios.get('/api/analytics'),
-        axios.get('/api/predictions'),
-        axios.get('/api/scenario-comparison')
-      ]);
+      cconst [analyticsRes, forecastsRes, comparisonRes] = await Promise.all([
+    apiClient.get('/api/analytics'),
+    apiClient.get('/api/predictions'),
+    apiClient.get('/api/scenario-comparison')
+]);
       setChartData(analyticsRes.data);
       setForecasts(forecastsRes.data);
       setComparison(comparisonRes.data);
