@@ -27,7 +27,7 @@ export default function Analytics() {
 
   const fetchAnalytics = async () => {
     try {
-      cconst [analyticsRes, forecastsRes, comparisonRes] = await Promise.all([
+      const [analyticsRes, forecastsRes, comparisonRes] = await Promise.all([
     apiClient.get('/api/analytics'),
     apiClient.get('/api/predictions'),
     apiClient.get('/api/scenario-comparison')
