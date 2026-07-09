@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import apiClient from '../api';
 import { stabilizeDashboard } from '../utils/dashboardStabilizer';
 
 const AppContext = createContext();
@@ -111,7 +111,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('/api/dashboard');
+      const response = await apiClient.get('/api/dashboard');
       const nextData = stabilizeDashboard(response.data);
 
       setData(prev => {
@@ -156,7 +156,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchPredictions = async () => {
     try {
-      const res = await axios.get('/api/predictions');
+      const res = await apiClient.get('/api/predictions');
       setPredictions(res.data);
     } catch (err) {
       // API may be temporarily unavailable
@@ -165,7 +165,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchValidation = async () => {
     try {
-      const res = await axios.get('/api/validation');
+      const res = await apiClient.get('/api/validation');
       setValidationMetrics(res.data);
     } catch (err) {
       // API may be temporarily unavailable
@@ -194,7 +194,7 @@ export const AppProvider = ({ children }) => {
   const changeDisaster = async (type, severity = 0.8) => {
     try {
       triggerSound('click');
-      await axios.post('/api/simulator/disaster', {
+      await apiClient.post('/api/simulator/disaster', {
         type,
         severity,
         active: type !== 'Normal',
@@ -211,7 +211,7 @@ export const AppProvider = ({ children }) => {
     try {
       triggerSound('click');
       if (action === 'speed') setSimSpeed(speedVal);
-      await axios.post(`/api/simulator/control?action=${action}&speed=${speedVal}`);
+      await apiClient.post(`/api/simulator/control?action=${action}&speed=${speedVal}`);
       if (action === 'reset') {
         addToastAlert("Simulation reset successful. Restoring battery levels.", "success");
       } else if (action === 'start') {
@@ -229,7 +229,7 @@ export const AppProvider = ({ children }) => {
   const toggleNodeStatus = async (nodeId) => {
     try {
       triggerSound('click');
-      await axios.post(`/api/infrastructure/${nodeId}/toggle`);
+      await apiClient.post(`/api/infrastructure/${nodeId}/toggle`);
       addToastAlert("Manual infrastructure bypass triggered.", "info");
       await fetchDashboardData();
     } catch (err) {
@@ -240,7 +240,7 @@ export const AppProvider = ({ children }) => {
   const completeDecision = async (decisionId) => {
     try {
       triggerSound('success');
-      await axios.post(`/api/decision/${decisionId}/action`);
+      await apiClient.post(`/api/decision/${decisionId}/action`);
       addToastAlert("AI Recommendation accepted and executed.", "success");
       await fetchDashboardData();
     } catch (err) {
@@ -251,7 +251,7 @@ export const AppProvider = ({ children }) => {
   const askCommander = async (queryText) => {
     try {
       triggerSound('click');
-      const res = await axios.post('/api/incident-commander/ask', { query: queryText });
+      const res = await apiClient.post('/api/incident-commander/ask', { query: queryText });
       return res.data.response;
     } catch (err) {
       return "Telemetry system busy. Please try asking again shortly.";
@@ -262,7 +262,7 @@ export const AppProvider = ({ children }) => {
     try {
       triggerSound('alarm');
       setSimSpeed(2.0); // fast forward during demo
-      await axios.post('/api/demo/cyclone');
+      await apiClient.post('/api/demo/cyclone');
       addToastAlert("JUDGE DEMO MODE ACTIVATED: Category 4 Cyclone scenario initiated.", "critical");
       await fetchDashboardData();
       await fetchPredictions();
@@ -272,10 +272,10 @@ export const AppProvider = ({ children }) => {
   };
 
   const exportPDFReport = () => {
-    triggerSound('success');
-    addToastAlert("Preparing PDF Resilience Audit Report...", "info");
-    window.open('/api/report/export', '_blank');
-  };
+  triggerSound('success');
+  addToastAlert("Preparing PDF Resilience Audit Report...", "info");
+  window.open(`${apiClient.defaults.baseURL}/api/report/export`, "_blank");
+};
 
   return (
     <AppContext.Provider value={{
